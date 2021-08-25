@@ -5,8 +5,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javassist.NotFoundException;
+
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 	@Autowired
 	IUserRepository userRepository;
 
@@ -20,7 +22,7 @@ public class UserService implements IUserService{
 	public Iterable<User> getAllUsers() {
 		return userRepository.findAll();
 	}
-	
+
 	@Override
 	public Optional<User> getUser(Integer id) {
 		Optional<User> user = userRepository.findById(id);
@@ -29,4 +31,10 @@ public class UserService implements IUserService{
 		}
 		return user;
 	}
+
+	@Override
+	public void deleteUser(Integer id) {
+		userRepository.deleteById(id);
+	}
+
 }
