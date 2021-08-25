@@ -5,14 +5,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements IUserService{
-	
 	@Autowired
 	IUserRepository userRepository;
-	
+
 	@Override
 	public void save(User user) {
 		userRepository.save(user);
-		System.out.println("Saved");
+		System.out.println("saved");
 	}
 
+	@Override
+	public Iterable<User> getAllUsers() {
+		return userRepository.findAll();
+	}
 }
