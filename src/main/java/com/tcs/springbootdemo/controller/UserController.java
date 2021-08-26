@@ -47,8 +47,12 @@ public class UserController {
 	   }
 	@PostMapping
 	private void saveUser(@RequestBody @Valid User user) {
-		userService.save(user);
-		System.out.println(user.getFirstName());
+		try {
+			userService.save(user);
+		} catch (Exception e) {
+			logger.error(e.getCause().toString());
+		}
+		logger.debug(user.getFirstName());
 	}
 	@PutMapping
 	private void updateUser(@RequestBody User user) {
