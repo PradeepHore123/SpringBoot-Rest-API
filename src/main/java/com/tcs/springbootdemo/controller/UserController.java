@@ -25,40 +25,41 @@ import com.tcs.springbootdemo.service.IUserService;
 
 @RestController
 @RequestMapping("/user")
-public class UserController { 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+public class UserController {
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@Autowired  
+	@Autowired
 	IUserService userService;
-	
+
 	@GetMapping
 	private Iterable<User> getUser() {
 		return userService.getAllUsers();
 	}
-	
+
 	@GetMapping("/{id}")
 	private Optional<User> getUser(@PathVariable("id") Integer id) {
 		return userService.getUser(id);
 	}
-	
+
 	@ExceptionHandler(value = UserNotFoundException.class)
-	   public ResponseEntity<User> exception(UserNotFoundException userNotFoundException) {
-	      return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-	   }
+	public ResponseEntity<User> exception(UserNotFoundException userNotFoundException) {
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	}
+
 	@PostMapping
 	private void saveUser(@RequestBody @Valid User user) {
-		try {
-			userService.save(user);
-		} catch (Exception e) {
-			logger.error(e.getCause().toString());
-		}
+
+		userService.save(user);
+
 		logger.debug(user.getFirstName());
 	}
+
 	@PutMapping
 	private void updateUser(@RequestBody User user) {
 		userService.save(user);
 		System.out.println(user.getFirstName());
 	}
+
 	@DeleteMapping("/{id}")
 	public void deleteUser(@PathVariable("id") Integer id) {
 		userService.deleteUser(id);
